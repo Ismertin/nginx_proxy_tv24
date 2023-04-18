@@ -1,0 +1,16 @@
+server{
+   listen 80;
+   server_name tv.pksk.su;
+   access_log logs/proxy.access.log;
+   error_log logs/proxy.error.log;
+   location /
+   {
+        resolver 1.1.1.1 valid=30s ipv6=off;
+        set $api https://provapi.24h.tv;
+        proxy_set_header host provapi.24h.tv;
+        proxy_pass $api;
+        proxy_ssl_name provapi.24h.tv;
+        proxy_ssl_server_name on;
+        proxy_set_header X-Forwarded-For $remote_addr;
+   }
+}
